@@ -1,7 +1,10 @@
 package domain;
 
-public class Block {
+import java.io.Serializable;
 
+public class Block implements Serializable{
+
+	private static final long serialVersionUID = 823247191210438800L;
 	private int x;
 	private int y;
 	private int color;
@@ -25,43 +28,23 @@ public class Block {
 	}
 
 	public boolean moveUp() {
-		if(this.y-1 >= 0) {
-			this.y = this.y-1;
-			return true;
-		}
-		else {
-			return false;
-		}
+		this.y = this.y-1;
+		return this.y >= 0;
 	}
 
 	public boolean moveDown() {
-		if(this.y+1 <= 20) {
-			this.y = this.y+1;
-			return true;
-		}
-		else {
-			return false;
-		}
+		this.y = this.y+1;
+		return this.y < 20;
 	}
 
 	public boolean moveRight() {
-		if(this.x+1 <= 10) {
-			this.x = this.x+1;
-			return true;
-		}
-		else {
-			return false;
-		}
+		this.x = this.x+1;
+		return this.x < 10;
 	}
 
 	public boolean moveLeft() {
-		if(this.x-1 >= 0) {
-			this.x = this.x-1;
-			return true;
-		}
-		else {
-			return false;
-		}
+		this.x = this.x-1;
+		return this.x >= 0;
 	}
 
 	@Override
