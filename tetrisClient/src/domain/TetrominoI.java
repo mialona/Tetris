@@ -24,9 +24,9 @@ public class TetrominoI extends Tetromino {
 			preBlock1.moveUp();
 			preBlock1.moveRight();
 			preBlock2.moveUp();
-			preBlock4.moveRight();
+			preBlock4.moveDown();
 			
-			if(preBlock1.moveRight() && preBlock2.moveRight() && preBlock4.moveUp()) {
+			if(preBlock1.moveRight() && preBlock2.moveRight() && preBlock4.moveLeft()) {
 				if(!this.structure.containsBlock(preBlock1) &&
 						!this.structure.containsBlock(preBlock2) &&
 						!this.structure.containsBlock(preBlock4)) {
@@ -44,9 +44,9 @@ public class TetrominoI extends Tetromino {
 			preBlock1.moveLeft();
 			preBlock1.moveDown();
 			preBlock2.moveLeft();
-			preBlock4.moveDown();
+			preBlock4.moveRight();
 			
-			if(preBlock1.moveDown() && preBlock2.moveDown() && preBlock4.moveLeft()) {
+			if(preBlock1.moveDown() && preBlock2.moveDown() && preBlock4.moveUp()) {
 				if(!this.structure.containsBlock(preBlock1) &&
 						!this.structure.containsBlock(preBlock2) &&
 						!this.structure.containsBlock(preBlock4)) {

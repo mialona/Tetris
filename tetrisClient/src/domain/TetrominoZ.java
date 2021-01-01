@@ -7,8 +7,8 @@ public class TetrominoZ extends Tetromino {
 	private int state;
 	
 	public TetrominoZ(Structure structure) {
-		super(new Block(3, 0, SWT.COLOR_GREEN), new Block(4, 0, SWT.COLOR_GREEN),
-				new Block(4, 1, SWT.COLOR_GREEN), new Block(5, 1, SWT.COLOR_GREEN), structure);
+		super(new Block(3, 0, SWT.COLOR_RED), new Block(4, 0, SWT.COLOR_RED),
+				new Block(4, 1, SWT.COLOR_RED), new Block(5, 1, SWT.COLOR_RED), structure);
 		
 		this.state = 0;
 	}

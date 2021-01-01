@@ -29,22 +29,26 @@ public class Block implements Serializable{
 
 	public boolean moveUp() {
 		this.y = this.y-1;
-		return this.y >= 0;
+		return invalidValues();
 	}
 
 	public boolean moveDown() {
 		this.y = this.y+1;
-		return this.y < 20;
+		return invalidValues();
 	}
 
 	public boolean moveRight() {
 		this.x = this.x+1;
-		return this.x < 10;
+		return invalidValues();
 	}
 
 	public boolean moveLeft() {
 		this.x = this.x-1;
-		return this.x >= 0;
+		return invalidValues();
+	}
+	
+	private boolean invalidValues() {
+		return (this.x >= 0) && (this.x < 10) && (this.y >= 0) && (this.y < 20);
 	}
 
 	@Override
