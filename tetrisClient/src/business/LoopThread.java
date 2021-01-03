@@ -14,7 +14,7 @@ public class LoopThread extends TimerTask {
 	public void run() {
 		Thread.currentThread().setPriority(6);
 		
-		if(!this.player.moveDown()) {
+		if(!this.player.moveDown() && !this.player.isOutOfLimit()) {
 			this.player.setNextTetromino(TetrominoGenerator.getTetromino());
 		}
 	}

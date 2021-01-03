@@ -1,34 +1,36 @@
 package business;
 
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import dataAccess.SingleScoresAccess;
 import domain.RegisterScore;
 
 public class SingleGame extends Game {
 
-	private long highscore;
+	private SingleScoresAccess ssa;
 	
 	public SingleGame() {
-		super();
+		super(1);
 		
-		this.highscore = 0; //search
+		this.ssa = new SingleScoresAccess();
+	}
+
+	@Override
+	public void start() {
+		super.start(true);
 	}
 
 	public long getHighscore(){
-		return this.highscore;
+		return this.ssa.getHighscore();
 	}
 
 	public List<RegisterScore> getScores(){
-		return new ArrayList<RegisterScore>(); //search
+		return this.ssa.getScores();
 	}
 
 	public void saveScore(){
-		if(this.highscore < this.getScore()) {
-			//save
-		}
-		
-		//save
+		this.ssa.addScore(new RegisterScore(this.getScore(0), this.getTime(), new Date()));
 	}
 	
 }

@@ -1,75 +1,127 @@
 package business;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 
 import domain.Block;
+import domain.Time;
 
 public abstract class Game {
 	
-	private Player player;
-	private Timer timer;
+	private boolean running;
+	private long startTime;
+	private Time time;
+	private Timer timeTimer;
+	private List<Player> players;
+	private List<Timer> timers;
 
-	public Game() {
+	public Game(int numberPlayers) {
 		TetrominoGenerator.initiate();
 		
-		this.player = new Player(TetrominoGenerator.getTetromino());
-		this.player.setNextTetromino(TetrominoGenerator.getTetromino());
-		this.timer = new Timer(true);
+		this.running = false;		
+		this.startTime = -1;
+		this.players = new ArrayList<Player>();
+		
+		for(int i = 0; i < numberPlayers; i++) {
+			Player player = new Player(TetrominoGenerator.getTetromino());
+			player.setNextTetromino(TetrominoGenerator.getTetromino());
+			this.players.add(player);
+		}
+		
+		this.time = new Time();
 	}
 	
-	public void start() {
-		this.timer.scheduleAtFixedRate(new LoopThread(this.player), 0, 750);
+	protected void start(boolean paused) {
+		if(!this.running) {
+			this.timers = new ArrayList<Timer>();
+			for(int i = 0; i < this.players.size(); i++) {
+				this.timers.add(new Timer(true));
+				this.timers.get(i).scheduleAtFixedRate(new LoopThread(this.players.get(i)), 0, 750);
+			}
+	
+			if(this.startTime == -1) {
+				this.startTime = System.currentTimeMillis();
+			}
+			this.timeTimer = new Timer(true);
+			if(paused) {
+				this.timeTimer.scheduleAtFixedRate(new StopWatchThread(this.time), 0, 1000);
+			}
+			else {
+				this.timeTimer.scheduleAtFixedRate(new StopWatchThread(this.time, this.startTime), 0, 1000);
+			}
+			
+			
+			this.running = true;
+		}
 	}
 	
-	public boolean lose() {
-		return this.player.isOutOfLimit();
-	}
+	public abstract void start();
 	
 	public void stop() {
-		this.timer.cancel();
+		if(this.running) {
+			for(Timer timer : this.timers) {
+				timer.cancel();
+			}
+	
+			this.timeTimer.cancel();
+			
+			this.running = false;
+		}
 	}
 	
-	public long getScore() {
-		return this.player.getScore();
+	public boolean isRunning(){
+		return this.running;
 	}
 	
-	public List<Block> getPlayerBlocksNext() {
-		return this.player.getBlocksNextTetromino();
+	public Time getTime(){
+		return this.time;
 	}
 	
-	public List<Block> getPlayerBlocks() {
-		return this.player.getBlocks();
+	public long getScore(int playerNumber) throws IndexOutOfBoundsException {
+		return this.players.get(playerNumber).getScore();
 	}
 	
-	public boolean isPlayerModified() {
-		return this.player.isModified();
+	public boolean isLose(int playerNumber) {
+		return this.players.get(playerNumber).isOutOfLimit();
 	}
 	
-	public void updatedPlayer() {
-		this.player.updated();
+	public List<Block> getPlayerBlocksNext(int playerNumber) throws IndexOutOfBoundsException {
+		return this.players.get(playerNumber).getBlocksNextTetromino();
 	}
 	
-	public void moveDownPlayer() {
-		Thread thread = new Thread(new MoveDownThread(player));
+	public List<Block> getPlayerBlocks(int playerNumber) throws IndexOutOfBoundsException {
+		return this.players.get(playerNumber).getBlocks();
+	}
+	
+	public boolean isPlayerModified(int playerNumber) throws IndexOutOfBoundsException {
+		return this.players.get(playerNumber).isModified();
+	}
+	
+	public void updatedPlayer(int playerNumber) throws IndexOutOfBoundsException {
+		this.players.get(playerNumber).updated();
+	}
+	
+	public void moveDownPlayer(int playerNumber) throws IndexOutOfBoundsException {
+		Thread thread = new Thread(new MoveDownThread(this.players.get(playerNumber)));
 		thread.setDaemon(true);
 		thread.start();
 	}
 	
-	public void moveRightPlayer() {
-		Thread thread = new Thread(new MoveRightThread(player));
+	public void moveRightPlayer(int playerNumber) throws IndexOutOfBoundsException {
+		Thread thread = new Thread(new MoveRightThread(this.players.get(playerNumber)));
 		thread.setDaemon(true);
 		thread.start();
 	}
 	
-	public void moveLeftPlayer() {
-		Thread thread = new Thread(new MoveLeftThread(player));
+	public void moveLeftPlayer(int playerNumber) throws IndexOutOfBoundsException {
+		Thread thread = new Thread(new MoveLeftThread(this.players.get(playerNumber)));
 		thread.setDaemon(true);
 		thread.start();
 	}
 	
-	public void rotatePlayer() {
-		Thread thread = new Thread(new RotateThread(player));
+	public void rotatePlayer(int playerNumber) throws IndexOutOfBoundsException {
+		Thread thread = new Thread(new RotateThread(this.players.get(playerNumber)));
 		thread.setDaemon(true);
 		thread.start();
 	}

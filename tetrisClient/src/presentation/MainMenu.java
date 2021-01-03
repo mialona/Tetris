@@ -3,72 +3,129 @@ package presentation;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
-import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.events.PaintEvent;
+import org.eclipse.swt.events.PaintListener;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.TextLayout;
+import org.eclipse.swt.graphics.TextStyle;
+import org.eclipse.swt.layout.FormAttachment;
+import org.eclipse.swt.layout.FormData;
+import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 
-public class MainMenu {
+public class MainMenu extends Composite {
 
-	private Display display;
-	private Shell shell;
-	private Composite composite; //setvisible false, dispose
-	
-	public MainMenu() {
-		this.display = new Display();
+	public MainMenu(Composite parent, int style) {
+		super(parent, style);
+
+		this.setLayout(new FormLayout());
 		
-		this.shell = new Shell(display);
-		this.shell.setSize(new Point(400,600));
-		shell.setText("Tetris");
+		this.addPaintListener(new PaintListener(){
+	        public void paintControl(PaintEvent e){
+	        	paint(e);
+	        }
+	    });
 		
-		this.composite = this.setMainComposite(shell);
-	}
-	
-	public void launch() {
-		this.shell.open();
+		Label labelTetris = new Label(this,SWT.NONE);
+			labelTetris.setBackground(this.getParent().getDisplay().getSystemColor(SWT.COLOR_BLACK));
+			
+	        FormData fdTetris = new FormData();
+	        fdTetris.top = new FormAttachment(0, 50);
+	        fdTetris.left = new FormAttachment(0, 40);
+	        fdTetris.bottom = new FormAttachment(0, 140);
+	        fdTetris.right = new FormAttachment(0, 345);
+	        labelTetris.setLayoutData(fdTetris);
+
+	        TextLayout layout = new TextLayout(this.getParent().getDisplay());
+	        	layout.setText("TETRIS");
+	        	
+		        TextStyle textStyleT = new TextStyle(this.getParent().getDisplay().getSystemFont(),
+		        		this.getParent().getDisplay().getSystemColor(SWT.COLOR_RED), null);
+		        textStyleT.font = new Font(this.getParent().getDisplay(), "Arial", 50, SWT.BOLD | SWT.BORDER);
+		        
+		        TextStyle textStyleE = new TextStyle(this.getParent().getDisplay().getSystemFont(),
+		        		new Color(this.getParent().getDisplay(), 255, 165, 0), null);
+		        textStyleE.font = new Font(this.getParent().getDisplay(), "Arial", 50, SWT.BOLD);
+		        
+		        TextStyle textStyleT2 = new TextStyle(this.getParent().getDisplay().getSystemFont(),
+		        		this.getParent().getDisplay().getSystemColor(SWT.COLOR_YELLOW), null);
+		        textStyleT2.font = new Font(this.getParent().getDisplay(), "Arial", 50, SWT.BOLD);
+		        
+		        TextStyle textStyleR = new TextStyle(this.getParent().getDisplay().getSystemFont(),
+		        		this.getParent().getDisplay().getSystemColor(SWT.COLOR_GREEN), null);
+		        textStyleR.font = new Font(this.getParent().getDisplay(), "Arial", 50, SWT.BOLD);
+		        
+		        TextStyle textStyleI = new TextStyle(this.getParent().getDisplay().getSystemFont(),
+		        		this.getParent().getDisplay().getSystemColor(SWT.COLOR_CYAN), null);
+		        textStyleI.font = new Font(this.getParent().getDisplay(), "Arial", 50, SWT.BOLD);
+		        
+		        TextStyle textStyleS = new TextStyle(this.getParent().getDisplay().getSystemFont(),
+		        		this.getParent().getDisplay().getSystemColor(SWT.COLOR_MAGENTA), null);
+		        textStyleS.font = new Font(this.getParent().getDisplay(), "Arial", 50, SWT.BOLD);
+
+	        labelTetris.addListener(SWT.Paint, new Listener() {
+	            @Override
+	            public void handleEvent(Event event) {
+	                layout.setStyle(textStyleT, 0, 0);
+	                layout.setStyle(textStyleE, 1, 1);
+	                layout.setStyle(textStyleT2, 2, 2);
+	                layout.setStyle(textStyleR, 3, 3);
+	                layout.setStyle(textStyleI, 4, 4);
+	                layout.setStyle(textStyleS, 5, 5);
+	                
+	                layout.draw(event.gc, event.x, event.y);
+	            }
+	        });
 		
-		while(!this.shell.isDisposed()) {
-			if(!this.display.readAndDispatch()) {
-				this.display.sleep();
-			}
-		}
-		
-		this.display.dispose();
-	}
-	
-	private Composite setMainComposite(Shell shell) {
-		Composite composite = new Composite(shell, SWT.NONE);
-		
-			Button buttonSingleGame = new Button(composite,SWT.PUSH);
-			buttonSingleGame.setText("Un jugador");
+		Button buttonSingleGame = new Button(this, SWT.PUSH);
+			buttonSingleGame.setFont(new Font(this.getParent().getDisplay(), "Arial", 14, SWT.NONE));
+			buttonSingleGame.setText("Single game");
+			buttonSingleGame.setAlignment(SWT.CENTER);
+			
+			FormData fdSingleGame = new FormData();
+	        fdSingleGame.top = new FormAttachment(0, 300);
+	        fdSingleGame.left = new FormAttachment(0, 85);
+	        fdSingleGame.bottom = new FormAttachment(0, 345);
+	        fdSingleGame.right = new FormAttachment(0, 300);
+	        buttonSingleGame.setLayoutData(fdSingleGame);
 			
 			buttonSingleGame.addMouseListener(new MouseListener() {
 				@Override
 				public void mouseUp(MouseEvent e) {
 					singleGameHandlerMouse();
 				}
-
+	
 				@Override
 				public void mouseDown(MouseEvent e) {}
-
+	
 				@Override
 				public void mouseDoubleClick(MouseEvent e) {}
 			});
 			buttonSingleGame.pack();
-		
-		composite.pack();
-		return composite;
+	
+		this.pack();
+	}
+	
+	private void paint(PaintEvent e) {
+		e.gc.setBackground(this.getParent().getDisplay().getSystemColor(SWT.COLOR_BLACK));
+        e.gc.fillRectangle(30,50,316,96);
+        e.gc.fillRectangle(145,146,96,96);
 	}
 	
 	private void singleGameHandlerMouse() {
-		this.shell.setVisible(false);
+		this.getParent().setVisible(false);
 		
-		SingleGameWindow sgw = new SingleGameWindow(this.display);
+		SingleGameWindow sgw = new SingleGameWindow(this.getParent().getDisplay());
 		sgw.launch();
 		
-		this.shell.setVisible(true);
-		this.shell.forceActive();
+		this.getParent().setVisible(true);
+		((Shell)this.getParent()).forceActive();
 	}
-	
+
 }

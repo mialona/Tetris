@@ -19,7 +19,7 @@ public class Player {
 		this.tetromino = this.buildTetromino(firstTetromino);
 		this.score = 0;
 		this.outOfLimit = false;
-		this.modified = false;
+		this.modified = true;
 	}
 	
 	public synchronized void setNextTetromino(TetrominoType tetromino) {
