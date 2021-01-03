@@ -1,5 +1,7 @@
 package presentation;
 
+import java.util.List;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Rectangle;
@@ -14,16 +16,16 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
-import business.SingleGame;
 import domain.RegisterScore;
 
 public class ScoresWindow {
 
 	private Display display;
 	private Shell shell;
-	private SingleGame singleGame;
+	private long highscore;
+	private List<RegisterScore> scores;
 
-	public ScoresWindow(Display display, SingleGame singleGame) {
+	public ScoresWindow(Display display, long highscore, List<RegisterScore> scores) {
 		this.display = display;
 
 		this.shell = new Shell(this.display, SWT.TITLE | SWT.CLOSE);
@@ -36,7 +38,9 @@ public class ScoresWindow {
 		this.shell.setLocation(screenBounds.x + (screenBounds.width - 560) / 2,
 				screenBounds.y + (screenBounds.height - 700) / 2);
 
-		this.singleGame = singleGame;
+		this.highscore = highscore;
+		
+		this.scores = scores;
 
 		Label labelHighscore = new Label(this.shell, SWT.NONE);
 			labelHighscore.setFont(new Font(this.display, "Arial", 14, SWT.BOLD | SWT.ITALIC));
@@ -50,7 +54,7 @@ public class ScoresWindow {
 
 		Label labelHighscoreValue = new Label(this.shell, SWT.NONE);
 			labelHighscoreValue.setFont(new Font(this.display, "Arial", 30, SWT.NONE));
-			labelHighscoreValue.setText("" + this.singleGame.getHighscore());
+			labelHighscoreValue.setText("" + this.highscore);
 			FormData fdHighscoreValue = new FormData();
 			fdHighscoreValue.top = new FormAttachment(0, 50);
 			fdHighscoreValue.left = new FormAttachment(0, 200);
@@ -71,7 +75,7 @@ public class ScoresWindow {
 			TableColumn columnTime = new TableColumn(table, SWT.NULL);
 			columnTime.setText("Time");
 	
-			for (RegisterScore score : this.singleGame.getScores()) {
+			for (RegisterScore score : this.scores) {
 				TableItem item = new TableItem(table, SWT.NULL);
 				item.setText(0, score.getDate().toString());
 				item.setText(1, "" + score.getScore());

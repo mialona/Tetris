@@ -1,6 +1,8 @@
 package presentation;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FormAttachment;
@@ -8,6 +10,7 @@ import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Monitor;
 import org.eclipse.swt.widgets.Shell;
 
@@ -37,9 +40,20 @@ public class SingleGameWindow {
 		    this.shell.setLocation(screenBounds.x+(screenBounds.width-560)/2,
 		    		screenBounds.y+(screenBounds.height-700)/2);
 		    
+		    this.shell.addKeyListener(new KeyListener() {
+
+				@Override
+				public void keyReleased(KeyEvent e) {}
+
+				@Override
+				public void keyPressed(KeyEvent e) {
+					keyHandler(e);
+				}
+			});
+		    
         this.singleGame = new SingleGame();
         
-        this.playerCanvas = new PlayerCanvas(this.shell, SWT.NO_REDRAW_RESIZE, this.singleGame);
+        this.playerCanvas = new PlayerCanvas(this.shell, SWT.NO_REDRAW_RESIZE, this.singleGame, 0);
 	        FormData fdPlayerCanvas = new FormData();
 	        fdPlayerCanvas.top = new FormAttachment(0, 0);
 	        fdPlayerCanvas.left = new FormAttachment(0, 0);
@@ -57,7 +71,7 @@ public class SingleGameWindow {
 	        fdNext.right = new FormAttachment(0, 500);
 	        labelNext.setLayoutData(fdNext);
 	        
-        this.nextCanvas = new NextCanvas(this.shell, SWT.NO_REDRAW_RESIZE, this.singleGame);
+        this.nextCanvas = new NextCanvas(this.shell, SWT.NO_REDRAW_RESIZE, this.singleGame, 0);
 	        FormData fdNextCanvas = new FormData();
 	        fdNextCanvas.top = new FormAttachment(0, 50);
 	        fdNextCanvas.left = new FormAttachment(0, 360);
@@ -149,8 +163,35 @@ public class SingleGameWindow {
 			this.singleGame.stop();
 			this.singleGame.saveScore();
 			
-			ScoresWindow scores = new ScoresWindow(this.display, this.singleGame);
+			ScoresWindow scores = new ScoresWindow(this.display, this.singleGame.getHighscore(), this.singleGame.getScores());
 			scores.launch();
+		}
+	}
+
+	private void keyHandler(KeyEvent e) {
+		switch(e.keyCode) {
+			case SWT.ARROW_UP:
+				this.singleGame.rotatePlayer(0);
+				break;
+			case SWT.ARROW_DOWN:
+				this.singleGame.moveDownPlayer(0);
+				break;
+			case SWT.ARROW_RIGHT:
+				this.singleGame.moveRightPlayer(0);
+				break;
+			case SWT.ARROW_LEFT:
+				this.singleGame.moveLeftPlayer(0);
+				break;
+			case SWT.ESC:
+					MessageBox pause = new MessageBox(this.shell, SWT.ICON_QUESTION | SWT.YES | SWT.NO);
+						pause.setText("Paused");
+						pause.setMessage("Continue game?");
+						
+						this.singleGame.stop();
+						if(pause.open() == SWT.YES) {
+							this.singleGame.start();
+						}
+				break;
 		}
 	}
 	

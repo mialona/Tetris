@@ -108,6 +108,32 @@ public class MainMenu extends Composite {
 				public void mouseDoubleClick(MouseEvent e) {}
 			});
 			buttonSingleGame.pack();
+			
+		Button buttonCoopGame = new Button(this, SWT.PUSH);
+			buttonCoopGame.setFont(new Font(this.getParent().getDisplay(), "Arial", 14, SWT.NONE));
+			buttonCoopGame.setText("Co-op game");
+			buttonCoopGame.setAlignment(SWT.CENTER);
+			
+			FormData fdCoopGame = new FormData();
+	        fdCoopGame.top = new FormAttachment(0, 365);
+	        fdCoopGame.left = new FormAttachment(0, 85);
+	        fdCoopGame.bottom = new FormAttachment(0, 410);
+	        fdCoopGame.right = new FormAttachment(0, 300);
+	        buttonCoopGame.setLayoutData(fdCoopGame);
+			
+			buttonCoopGame.addMouseListener(new MouseListener() {
+				@Override
+				public void mouseUp(MouseEvent e) {
+					coopGameHandlerMouse();
+				}
+	
+				@Override
+				public void mouseDown(MouseEvent e) {}
+	
+				@Override
+				public void mouseDoubleClick(MouseEvent e) {}
+			});
+			buttonCoopGame.pack();
 	
 		this.pack();
 	}
@@ -123,6 +149,16 @@ public class MainMenu extends Composite {
 		
 		SingleGameWindow sgw = new SingleGameWindow(this.getParent().getDisplay());
 		sgw.launch();
+		
+		this.getParent().setVisible(true);
+		((Shell)this.getParent()).forceActive();
+	}
+	
+	private void coopGameHandlerMouse() {
+		this.getParent().setVisible(false);
+		
+		CoopGameWindow cgw = new CoopGameWindow(this.getParent().getDisplay());
+		cgw.launch();
 		
 		this.getParent().setVisible(true);
 		((Shell)this.getParent()).forceActive();

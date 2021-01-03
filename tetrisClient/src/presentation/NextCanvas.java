@@ -8,17 +8,19 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 
-import business.SingleGame;
+import business.Game;
 import domain.Block;
 
 public class NextCanvas extends Canvas {
 
-	private SingleGame singleGame;
+	private Game game;
+	private int playerNumber;
 	private Color orange;
 
-	public NextCanvas(Composite parent, int style, SingleGame singleGame) {
+	public NextCanvas(Composite parent, int style, Game game, int playerNumber) {
 		super(parent, style);
-		this.singleGame = singleGame;
+		this.game = game;
+		this.playerNumber = playerNumber;
 		this.orange = new Color(this.getParent().getDisplay(), 255, 165, 0);
 
 		this.addPaintListener(new PaintListener() {
@@ -34,7 +36,7 @@ public class NextCanvas extends Canvas {
 		e.gc.setBackground(this.getParent().getDisplay().getSystemColor(SWT.COLOR_BLACK));
 		e.gc.fillRectangle(0, 0, 140, 100);
 
-		for (Block block : this.singleGame.getPlayerBlocksNext(0)) {
+		for (Block block : this.game.getPlayerBlocksNext(this.playerNumber)) {
 			if (block.getColor() == SWT.COLOR_DARK_YELLOW) {
 				e.gc.setBackground(this.orange);
 			} else {
