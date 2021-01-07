@@ -4,14 +4,12 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.graphics.Font;
-import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.MessageBox;
-import org.eclipse.swt.widgets.Monitor;
 import org.eclipse.swt.widgets.Shell;
 
 import business.SingleGame;
@@ -27,29 +25,14 @@ public class SingleGameWindow {
 	private Label score;
 	private Label highscore;
 
-	public SingleGameWindow(Display display) {
+	public SingleGameWindow(Display display, int xCenteredLocation, int yCenteredLocation) {
 		this.display = display;
 		
 		this.shell = new Shell(this.display, SWT.TITLE);
 			this.shell.setSize(560,700);
 			this.shell.setText("Tetris - Single game");
 			this.shell.setLayout(new FormLayout());
-			
-			Monitor primary = display.getPrimaryMonitor();
-		    Rectangle screenBounds = primary.getBounds();
-		    this.shell.setLocation(screenBounds.x+(screenBounds.width-560)/2,
-		    		screenBounds.y+(screenBounds.height-700)/2);
-		    
-		    this.shell.addKeyListener(new KeyListener() {
-
-				@Override
-				public void keyReleased(KeyEvent e) {}
-
-				@Override
-				public void keyPressed(KeyEvent e) {
-					keyHandler(e);
-				}
-			});
+			this.shell.setLocation(xCenteredLocation-280, yCenteredLocation-350);
 		    
         this.singleGame = new SingleGame();
         
@@ -60,6 +43,17 @@ public class SingleGameWindow {
 	        fdPlayerCanvas.bottom = new FormAttachment(0, 640);
 	        fdPlayerCanvas.right = new FormAttachment(0, 340);
 	        this.playerCanvas.setLayoutData(fdPlayerCanvas);
+	        
+		    this.playerCanvas.addKeyListener(new KeyListener() {
+
+				@Override
+				public void keyReleased(KeyEvent e) {}
+
+				@Override
+				public void keyPressed(KeyEvent e) {
+					keyHandler(e);
+				}
+			});
 
         Label labelNext = new Label(this.shell,SWT.NONE);
         	labelNext.setFont(new Font(this.display, "Arial", 14, SWT.BOLD | SWT.ITALIC));
@@ -103,7 +97,7 @@ public class SingleGameWindow {
 	    this.score = new Label(this.shell,SWT.LEFT | SWT.BORDER);
 	    	this.score.setFont(new Font(this.display, "Arial", 14, SWT.NONE));
 	    	this.score.setAlignment(SWT.RIGHT);
-	    	this.score.setText(""+this.singleGame.getScore(0));
+	    	this.score.setText(""+this.singleGame.getPlayerScore(0));
 	        FormData fdScoreValue = new FormData();
 	        fdScoreValue.top = new FormAttachment(0, 230);
 	        fdScoreValue.left = new FormAttachment(0, 360);
@@ -138,7 +132,7 @@ public class SingleGameWindow {
 		this.singleGame.start();
 		this.shell.open();
 		
-		while(!this.singleGame.isLose(0) && this.singleGame.isRunning()) {
+		while(!this.singleGame.isPlayerLose(0) && this.singleGame.isRunning()) {
 			this.display.readAndDispatch();
 			
 	    	this.time.setText(this.singleGame.getTime().toString());
@@ -150,7 +144,7 @@ public class SingleGameWindow {
 				this.nextCanvas.redraw();
 				this.nextCanvas.update();
 				
-				this.score.setText(""+this.singleGame.getScore(0));
+				this.score.setText(""+this.singleGame.getPlayerScore(0));
 				
 				this.singleGame.updatedPlayer(0);
 			}

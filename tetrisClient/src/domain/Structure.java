@@ -34,17 +34,23 @@ public class Structure {
 		
 		for (int i = 0; i < 20; i++) {
 			if (this.isRow(i)) {
+				ArrayList<Block> list = new ArrayList<Block>();
 				for (int j = 0; j < this.blocks.size(); j++) {
 					if (this.blocks.get(j).getY() == i) {
 						this.blocks.remove(j);
 						j--;
 					}
 				}
-				for (Block block : this.blocks) {
-					if (block.getY() < i) {
-						block.moveDown();
+				for (int k = 0; k < this.blocks.size(); k++) {
+					if (this.blocks.get(k).getY() < i) {
+						this.blocks.get(k).moveDown();
+						list.add(new Block(this.blocks.get(k).getX(),
+								this.blocks.get(k).getY(),this.blocks.get(k).getColor()));
+						this.blocks.remove(k);
+						k--;
 					}
 				}
+				this.blocks.addAll(list);
 				rows++;
 			}
 		}

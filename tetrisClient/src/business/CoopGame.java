@@ -17,16 +17,16 @@ public class CoopGame extends Game {
 	}
 	
 	@Override
-	public void start() {
-		super.start(true);
+	public boolean start() {
+		return super.start(true);
 	}
 
 	public boolean isLose() {
-		return this.isLose(0) || this.isLose(1);
+		return this.isPlayerLose(0) || this.isPlayerLose(1);
 	}
 
 	public long getScore() {
-		return this.getScore(0) + this.getScore(1);
+		return this.getPlayerScore(0) + this.getPlayerScore(1);
 	}
 
 	public long getHighscore(){

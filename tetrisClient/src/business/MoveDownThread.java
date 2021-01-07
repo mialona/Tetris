@@ -1,5 +1,7 @@
 package business;
 
+import domain.Player;
+
 public class MoveDownThread implements Runnable {
 
 	private Player player;
@@ -11,7 +13,7 @@ public class MoveDownThread implements Runnable {
 	@Override
 	public void run() {
 		if(!this.player.moveDown()) {
-			this.player.setNextTetromino(TetrominoGenerator.getTetromino());
+			this.player.setNextTetromino(TetrominoGenerator.getRandomTetromino());
 		}
 	}
 

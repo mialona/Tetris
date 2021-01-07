@@ -1,5 +1,7 @@
 package business;
 
+import domain.Player;
+
 public class MoveRightThread implements Runnable {
 
 	private Player player;

@@ -4,14 +4,12 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.graphics.Font;
-import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.MessageBox;
-import org.eclipse.swt.widgets.Monitor;
 import org.eclipse.swt.widgets.Shell;
 
 import business.CoopGame;
@@ -29,29 +27,14 @@ public class CoopGameWindow {
 	private Label score;
 	private Label highscore;
 	
-	public CoopGameWindow(Display display) {
+	public CoopGameWindow(Display display, int xCenteredLocation, int yCenteredLocation) {
 		this.display = display;
 		
 		this.shell = new Shell(this.display, SWT.TITLE);
 			this.shell.setSize(880,700);
 			this.shell.setText("Tetris - Co-op game");
 			this.shell.setLayout(new FormLayout());
-			
-			Monitor primary = display.getPrimaryMonitor();
-		    Rectangle screenBounds = primary.getBounds();
-		    this.shell.setLocation(screenBounds.x+(screenBounds.width-880)/2,
-		    		screenBounds.y+(screenBounds.height-700)/2);
-		    
-		    this.shell.addKeyListener(new KeyListener() {
-
-				@Override
-				public void keyReleased(KeyEvent e) {}
-
-				@Override
-				public void keyPressed(KeyEvent e) {
-					keyHandler(e);
-				}
-			});
+			this.shell.setLocation(xCenteredLocation-440, yCenteredLocation-350);
 		    
         this.coopGame = new CoopGame();
         
@@ -62,6 +45,17 @@ public class CoopGameWindow {
 	        fdPlayer0Canvas.bottom = new FormAttachment(0, 640);
 	        fdPlayer0Canvas.right = new FormAttachment(0, 340);
 	        this.player0Canvas.setLayoutData(fdPlayer0Canvas);
+	        
+	        this.player0Canvas.addKeyListener(new KeyListener() {
+
+				@Override
+				public void keyReleased(KeyEvent e) {}
+
+				@Override
+				public void keyPressed(KeyEvent e) {
+					keyHandler(e);
+				}
+			});
 
         Label label0Next = new Label(this.shell,SWT.NONE);
         	label0Next.setFont(new Font(this.display, "Arial", 14, SWT.BOLD | SWT.ITALIC));

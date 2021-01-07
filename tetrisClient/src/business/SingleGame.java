@@ -17,8 +17,8 @@ public class SingleGame extends Game {
 	}
 
 	@Override
-	public void start() {
-		super.start(true);
+	public boolean start() {
+		return super.start(true);
 	}
 
 	public long getHighscore(){
@@ -30,7 +30,7 @@ public class SingleGame extends Game {
 	}
 
 	public void saveScore(){
-		this.ssa.addScore(new RegisterScore(this.getScore(0), this.getTime(), new Date()));
+		this.ssa.addScore(new RegisterScore(this.getPlayerScore(0), this.getTime(), new Date()));
 	}
 	
 }

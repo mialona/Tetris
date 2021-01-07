@@ -134,6 +134,32 @@ public class MainMenu extends Composite {
 				public void mouseDoubleClick(MouseEvent e) {}
 			});
 			buttonCoopGame.pack();
+			
+		Button buttonOnlineGame = new Button(this, SWT.PUSH);
+			buttonOnlineGame.setFont(new Font(this.getParent().getDisplay(), "Arial", 14, SWT.NONE));
+			buttonOnlineGame.setText("Online game");
+			buttonOnlineGame.setAlignment(SWT.CENTER);
+			
+			FormData fdOnlineGame = new FormData();
+	        fdOnlineGame.top = new FormAttachment(0, 430);
+	        fdOnlineGame.left = new FormAttachment(0, 85);
+	        fdOnlineGame.bottom = new FormAttachment(0, 475);
+	        fdOnlineGame.right = new FormAttachment(0, 300);
+	        buttonOnlineGame.setLayoutData(fdOnlineGame);
+			
+			buttonOnlineGame.addMouseListener(new MouseListener() {
+				@Override
+				public void mouseUp(MouseEvent e) {
+					onlineGameHandlerMouse();
+				}
+	
+				@Override
+				public void mouseDown(MouseEvent e) {}
+	
+				@Override
+				public void mouseDoubleClick(MouseEvent e) {}
+			});
+			buttonOnlineGame.pack();
 	
 		this.pack();
 	}
@@ -147,7 +173,9 @@ public class MainMenu extends Composite {
 	private void singleGameHandlerMouse() {
 		this.getParent().setVisible(false);
 		
-		SingleGameWindow sgw = new SingleGameWindow(this.getParent().getDisplay());
+		SingleGameWindow sgw = new SingleGameWindow(this.getParent().getDisplay(),
+				this.getShell().getLocation().x+this.getShell().getSize().x/2,
+				this.getShell().getLocation().y+this.getShell().getSize().y/2);
 		sgw.launch();
 		
 		this.getParent().setVisible(true);
@@ -157,11 +185,21 @@ public class MainMenu extends Composite {
 	private void coopGameHandlerMouse() {
 		this.getParent().setVisible(false);
 		
-		CoopGameWindow cgw = new CoopGameWindow(this.getParent().getDisplay());
+		CoopGameWindow cgw = new CoopGameWindow(this.getParent().getDisplay(),
+				this.getShell().getLocation().x+this.getShell().getSize().x/2,
+				this.getShell().getLocation().y+this.getShell().getSize().y/2);
 		cgw.launch();
 		
 		this.getParent().setVisible(true);
 		((Shell)this.getParent()).forceActive();
+	}
+	
+	private void onlineGameHandlerMouse() {
+		this.setVisible(false);
+		
+		new OnlineMenu(this.getParent(), SWT.NONE);
+		
+		this.dispose();
 	}
 
 }

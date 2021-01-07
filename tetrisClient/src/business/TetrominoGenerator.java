@@ -1,33 +1,12 @@
 package business;
 
-import java.util.LinkedList;
-import java.util.Queue;
 import java.util.Random;
 
-import domain.*;
+import domain.TetrominoType;
 
 public class TetrominoGenerator {
 
-	private static Queue<TetrominoType> listTetrominoesNames;
-
-	public static void initiate() {
-		listTetrominoesNames = new LinkedList<TetrominoType>();
-	}
-
-	public static TetrominoType getTetromino() {
-		if(!TetrominoGenerator.listTetrominoesNames.isEmpty()) {
-			return TetrominoGenerator.listTetrominoesNames.poll();
-		}
-		else {
-			return getRandomTetromino();
-		}
-	}
-
-	public static void setTetrominoName(TetrominoType tetromino) {
-		TetrominoGenerator.listTetrominoesNames.add(tetromino);
-	}
-
-	private static TetrominoType getRandomTetromino() {
+	public static TetrominoType getRandomTetromino() {
 		Random ran = new Random();
 		switch (ran.nextInt(7)) {
 			case 0:

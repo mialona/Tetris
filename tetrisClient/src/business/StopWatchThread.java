@@ -16,7 +16,7 @@ public class StopWatchThread extends TimerTask {
 	}
 	
 	public StopWatchThread(Time time, long startTime) {
-		this.initialTime = System.currentTimeMillis() - startTime;
+		this.initialTime = startTime;
 		
 		this.time = time;
 	}

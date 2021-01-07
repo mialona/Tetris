@@ -1,5 +1,7 @@
 package business;
 
+import domain.Player;
+
 public class RotateThread implements Runnable {
 
 	private Player player;
