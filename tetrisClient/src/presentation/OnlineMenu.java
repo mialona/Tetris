@@ -22,10 +22,11 @@ public class OnlineMenu extends Composite {
 		Label labelOnline = new Label(this,SWT.NONE);
 			labelOnline.setFont(new Font(this.getParent().getDisplay(), "Arial", 50, SWT.BOLD));
 			labelOnline.setText("Online");
+			labelOnline.setAlignment(SWT.CENTER);
 			
 	        FormData fdOnline = new FormData();
 	        fdOnline.top = new FormAttachment(0, 60);
-	        fdOnline.left = new FormAttachment(0, 60);
+	        fdOnline.left = new FormAttachment(0, 30);
 	        fdOnline.bottom = new FormAttachment(0, 140);
 	        fdOnline.right = new FormAttachment(0, 345);
 	        labelOnline.setLayoutData(fdOnline);
@@ -33,12 +34,13 @@ public class OnlineMenu extends Composite {
 		Label labelGame = new Label(this,SWT.NONE);
 			labelGame.setFont(new Font(this.getParent().getDisplay(), "Arial", 50, SWT.BOLD));
 			labelGame.setText("game");
+			labelGame.setAlignment(SWT.CENTER);
 			
 	        FormData fdGame = new FormData();
 	        fdGame.top = new FormAttachment(0, 135);
-	        fdGame.left = new FormAttachment(0, 82);
+	        fdGame.left = new FormAttachment(0, 42);
 	        fdGame.bottom = new FormAttachment(0, 250);
-	        fdGame.right = new FormAttachment(0, 345);
+	        fdGame.right = new FormAttachment(0, 335);
 	        labelGame.setLayoutData(fdGame);
 		
 		Button buttonCreateGame = new Button(this, SWT.PUSH);

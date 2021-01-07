@@ -41,10 +41,11 @@ public class CreateOnlineWindow{
 		Label labelCreateGame = new Label(this.shell,SWT.NONE);
 			labelCreateGame.setFont(new Font(this.display, "Arial", 20, SWT.BOLD));
 			labelCreateGame.setText("Create game");
+			labelCreateGame.setAlignment(SWT.CENTER);
 			
 	        FormData fdCreateGame = new FormData();
 	        fdCreateGame.top = new FormAttachment(0, 30);
-	        fdCreateGame.left = new FormAttachment(0, 90);
+	        fdCreateGame.left = new FormAttachment(0, 45);
 	        fdCreateGame.bottom = new FormAttachment(0, 70);
 	        fdCreateGame.right = new FormAttachment(0, 345);
 	        labelCreateGame.setLayoutData(fdCreateGame);

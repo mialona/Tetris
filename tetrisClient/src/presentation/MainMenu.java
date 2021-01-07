@@ -37,17 +37,19 @@ public class MainMenu extends Composite {
 			
 	        FormData fdTetris = new FormData();
 	        fdTetris.top = new FormAttachment(0, 50);
-	        fdTetris.left = new FormAttachment(0, 40);
+	        fdTetris.left = new FormAttachment(0, 30);
 	        fdTetris.bottom = new FormAttachment(0, 140);
-	        fdTetris.right = new FormAttachment(0, 345);
+	        fdTetris.right = new FormAttachment(0, 350);
 	        labelTetris.setLayoutData(fdTetris);
 
 	        TextLayout layout = new TextLayout(this.getParent().getDisplay());
+	        	layout.setWidth(320);
 	        	layout.setText("TETRIS");
+	        	layout.setAlignment(SWT.CENTER);
 	        	
 		        TextStyle textStyleT = new TextStyle(this.getParent().getDisplay().getSystemFont(),
 		        		this.getParent().getDisplay().getSystemColor(SWT.COLOR_RED), null);
-		        textStyleT.font = new Font(this.getParent().getDisplay(), "Arial", 50, SWT.BOLD | SWT.BORDER);
+		        textStyleT.font = new Font(this.getParent().getDisplay(), "Arial", 50, SWT.BOLD | SWT.CENTER);
 		        
 		        TextStyle textStyleE = new TextStyle(this.getParent().getDisplay().getSystemFont(),
 		        		new Color(this.getParent().getDisplay(), 255, 165, 0), null);
@@ -78,7 +80,7 @@ public class MainMenu extends Composite {
 	                layout.setStyle(textStyleR, 3, 3);
 	                layout.setStyle(textStyleI, 4, 4);
 	                layout.setStyle(textStyleS, 5, 5);
-	                
+
 	                layout.draw(event.gc, event.x, event.y);
 	            }
 	        });
@@ -160,13 +162,36 @@ public class MainMenu extends Composite {
 				public void mouseDoubleClick(MouseEvent e) {}
 			});
 			buttonOnlineGame.pack();
+			
+		Label labelVersion = new Label(this,SWT.NONE);
+			labelVersion.setFont(new Font(this.getParent().getDisplay(), "Arial", 10, SWT.NONE));
+			labelVersion.setText("v1.0");
+			
+	        FormData fdLabelVersion = new FormData();
+	        fdLabelVersion.top = new FormAttachment(0, 520);
+	        fdLabelVersion.left = new FormAttachment(0, 20);
+	        fdLabelVersion.bottom = new FormAttachment(0, 540);
+	        fdLabelVersion.right = new FormAttachment(0, 60);
+	        labelVersion.setLayoutData(fdLabelVersion);
+			
+		Label labelAuthor = new Label(this,SWT.NONE);
+			labelAuthor.setFont(new Font(this.getParent().getDisplay(), "Arial", 11, SWT.NONE));
+			labelAuthor.setText("© mialona");
+			labelAuthor.setAlignment(SWT.RIGHT);
+			
+	        FormData fdLabelAuthor = new FormData();
+	        fdLabelAuthor.top = new FormAttachment(0, 517);
+	        fdLabelAuthor.left = new FormAttachment(0, 200);
+	        fdLabelAuthor.bottom = new FormAttachment(0, 540);
+	        fdLabelAuthor.right = new FormAttachment(0, 360);
+	        labelAuthor.setLayoutData(fdLabelAuthor);
 	
 		this.pack();
 	}
 	
 	private void paint(PaintEvent e) {
 		e.gc.setBackground(this.getParent().getDisplay().getSystemColor(SWT.COLOR_BLACK));
-        e.gc.fillRectangle(30,50,316,96);
+        e.gc.fillRectangle(30,50,320,96);
         e.gc.fillRectangle(145,146,96,96);
 	}
 	

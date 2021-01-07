@@ -44,10 +44,11 @@ public class JoinOnlineWindow{
 		Label labelJoinGame = new Label(this.shell,SWT.NONE);
 			labelJoinGame.setFont(new Font(this.display, "Arial", 20, SWT.BOLD));
 			labelJoinGame.setText("Join game");
+			labelJoinGame.setAlignment(SWT.CENTER);
 			
 	        FormData fdJoinGame = new FormData();
 	        fdJoinGame.top = new FormAttachment(0, 30);
-	        fdJoinGame.left = new FormAttachment(0, 110);
+	        fdJoinGame.left = new FormAttachment(0, 45);
 	        fdJoinGame.bottom = new FormAttachment(0, 70);
 	        fdJoinGame.right = new FormAttachment(0, 345);
 	        labelJoinGame.setLayoutData(fdJoinGame);
