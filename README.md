@@ -1,4 +1,5 @@
 # Tetris
+Online multiplayer tetris for Windows x64 using SWT for Java 1.8.
 
 ## Client
 Java program that reproduces the logic game called Tetris, trying to apply the contents of network programming and concurrent programming known so far. It allows:
